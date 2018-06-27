@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Q
 from .models import Account, AccountType
 from .serializers import AccountSerializer, AccountTypeSerializer
 
@@ -39,6 +40,7 @@ class AccountViewSet(ModelViewSet):
         user = self.request.GET.get('user')
         accounttype = self.request.GET.get('accounttype')
         order = self.request.GET.get('order')
+        query = self.request.GET.get('query')
 
         queryset = self.queryset
 
@@ -53,6 +55,9 @@ class AccountViewSet(ModelViewSet):
 
         if order:
             queryset = queryset.order_by(order)
+
+        if query:
+            queryset = queryset.filter(description__icontains=query)
 
         return queryset
 
