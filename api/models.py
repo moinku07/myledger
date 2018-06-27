@@ -11,7 +11,7 @@ class AccountType(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
-    type = models.IntegerField(max_length=1, choices=ACCOUNTTYPE_CHOICES, default=1)
+    type = models.IntegerField(choices=ACCOUNTTYPE_CHOICES, default=1)
     created_at = models.DateTimeField("Created At", auto_now_add=True)
     updated_at = models.DateTimeField("Updated At", auto_now=True)
     deleted_at = models.DateTimeField("Deleted At", null=True, blank=True)
@@ -27,3 +27,6 @@ class Account(models.Model):
     created_at = models.DateTimeField("Created At", auto_now_add=True)
     updated_at = models.DateTimeField("Updated At", auto_now=True)
     deleted_at = models.DateTimeField("Deleted At", null=True, blank=True)
+
+    def __str__(self):
+        return "{}".format(self.description[:50])
